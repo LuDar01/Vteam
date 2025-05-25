@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { TripController } from './trip.controller';
+import { TripService } from './trip.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
+import { Trip } from '../entities/trip.entity';
 
-describe('UserController', () => {
-  let controller: UserController;
+describe('TripController', () => {
+  let controller: TripController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,16 +17,16 @@ describe('UserController', () => {
           username: 'scooter',
           password: 'scooterpass',
           database: 'scootersystem',
-          entities: [User],
+          entities: [Trip],
           synchronize: false,
         }),
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([Trip]),
       ],
-      controllers: [UserController],
-      providers: [UserService],
+      controllers: [TripController],
+      providers: [TripService],
     }).compile();
 
-    controller = module.get<UserController>(UserController);
+    controller = module.get<TripController>(TripController);
   });
 
   it('should be defined', () => {
