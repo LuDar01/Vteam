@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:10.5
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: scootersystem
+      MYSQL_USER: scooter
+      MYSQL_PASSWORD: scooterpass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    depends_on:
+      - mariadb
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USER=scooter
+      - DB_PASS=scooterpass
+      - DB_NAME=scootersystem
+
+  api:
+    build:
+      context: ./api
+    container_name: api
+    depends_on:
+      - mariadb
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USER=scooter
+      - DB_PASS=scooterpass
+      - DB_NAME=scootersystem
+
+volumes:
+  mariadb_data:
